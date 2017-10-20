@@ -1,0 +1,8 @@
+-ar  SAMPLING RATE
+-ac  ILOSC KANALOW
+-c CODEC NAME
+-i input
+
+ffmpeg -i <input_file> -f <output_format> -ac <output_channels_count> -ab <output_bitrate> -acodec <output_codec> <output_file>
+
+ffmpeg  -i mowa.mp3  -f wav -ac 1 -ab BIT_RATE -acodec pcm_u8 output 
