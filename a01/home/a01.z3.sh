@@ -30,13 +30,13 @@ ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -b:a 128k 2 a01.z3.2.128k.muzyk
 ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -b:a 320k 2 a01.z3.2.320k.muzyka.mp3
 
 # v2:
-ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 8k s01.z3.2.v2.br8k.mowa.mp3
-ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 128k s01.z3.2.v2.br128k.mowa.mp3
-ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 320k s01.z3.2.v2.br320k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 8k a01.z3.2.v2.br8k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 128k a01.z3.2.v2.br128k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -codec:a libmp3lame -b:a 320k a01.z3.2.v2.br320k.mowa.mp3
 
-ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 8k s01.z3.2.v2.br8k.muzyka.mp3
-ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 128k s01.z3.2.v2.br128k.muzyka.mp3
-ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 320k s01.z3.2.v2.br320k.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 8k a01.z3.2.v2.br8k.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 128k a01.z3.2.v2.br128k.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -codec:a libmp3lame -b:a 320k a01.z3.2.v2.br320k.muzyka.mp3
 
 # 3)
 
