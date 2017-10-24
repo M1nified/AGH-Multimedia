@@ -3,13 +3,13 @@
 # 1)
 
 # v1:
-ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 0 a01.z3.1.v1.mowa.mp3
-ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 4 a01.z3.1.v1.mowa.mp3
-ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 9 a01.z3.1.v1.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 0 a01.z3.1.v1.q0.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 4 a01.z3.1.v1.q4.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 9 a01.z3.1.v1.q9.mowa.mp3
 
-ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 0 a01.z3.1.v1.muzyka.mp3
-ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 4 a01.z3.1.v1.muzyka.mp3
-ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 9 a01.z3.1.v1.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 0 a01.z3.1.v1.q0.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 4 a01.z3.1.v1.q4.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 9 a01.z3.1.v1.q9.muzyka.mp3
 
 # v2:
 ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -qscale:a 0 a01.z3.1.v2.quality0.mowa.mp3
@@ -45,3 +45,7 @@ ffmpeg -i muzyka.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -b:a 320k a01.z3.2.v2.b
 ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 8 - a01.z3.3.b8k.muzyka.mp3
 ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 160 - a01.z3.3.b160k.muzyka.mp3
 ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 320 - a01.z3.3.b320k.muzyka.mp3
+
+ffmpeg -i mowa.mp3 -y -ac 1 -f wav - | lame --cbr -b 8 - a01.z3.3.b8k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f wav - | lame --cbr -b 160 - a01.z3.3.b160k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f wav - | lame --cbr -b 320 - a01.z3.3.b320k.mowa.mp3
