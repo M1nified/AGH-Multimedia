@@ -1,4 +1,4 @@
-Michał Góra
+Michał Góra   
 Karol Pietruszka
 
 # A 01 - ffmpeg
@@ -16,6 +16,8 @@ ffmpeg -codecs
 ```
 ffmpeg -i <input_file> -f <output_format> -ac <output_channels_count> -ar <output_sample_rate> -ab <output_bitrate> -acodec <output_codec> <output_file>
 ```
+
+Parametry okreslajace plik dotycza tylko i wylacznie tego (pliku), ktory znajduje sie jako pierwszy za tymi parametrami.
 
 ## Kompresja g.7xx
 
@@ -60,3 +62,52 @@ ffmpeg -i mowa.mp3 -ac 1 -f amr -ar 8000 -ab 12.2k -acodec amr_nb a01.z2.f.bitra
 > Amr supports only 8000Hz sample rate and 4.75k, 5.15k, 5.9k, 6.7k, 7.4k, 7.95k, 10.2k or 12.2k bit rates:
 
 W przypadku plikow `wav` wystepowal problem z ich odtwarzaniem za pomoca `VLC`, dzialal za to `Windows Media Player`.
+
+## Kompresja mp3
+
+### 1 - VBR
+
+> 1) [VBR] Skompresować przykładowe pliki dźwiękowe (mowa, muzyka) z wykorzystaniem kodeka MP3 w trybie VBR. Porównać rozmiary plików oryginalnych i po kompresji oraz odsłuchowo sprawdzić jakość otrzymanych rezultatów. Należy przetestować efekty dla co najmniej 3 różnych wartości parametru określającego jakość kompresji.
+
+```
+# v1:
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 0 a01.z3.1.v1.q0.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 4 a01.z3.1.v1.q4.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -q:a 9 a01.z3.1.v1.q9.mowa.mp3
+
+# v2:
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -qscale:a 0 a01.z3.1.v2.quality0.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -qscale:a 4 a01.z3.1.v2.quality4.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -qscale:a 9 a01.z3.1.v2.quality9.mowa.mp3
+```
+
+### 2 - CBR
+
+> 2) [CBR] Skompresować przykładowe pliki dźwiękowe (mowa, muzyka) z wykorzystaniem kodeka MP3 w trybie CBR. Porównać rozmiary plików oryginalnych i po kompresji oraz odsłuchowo sprawdzić jakość otrzymanych rezultatów. Sprawdzić jaki najniższy bitrate można osiągnąć i jaka jest jakość po kompresji.
+
+Minimalny uzyskany bitrate to 32kbps, nawet pomimio mozliwosci podanie mniejszej wartosci jako argumentu.
+
+```
+# v1:
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -b:a 8k a01.z3.2.v1.8k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -b:a 128k a01.z3.2.v1.128k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -acodec mp3 -b:a 320k a01.z3.2.v1.320k.mowa.mp3
+
+# v2:
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -b:a 8k a01.z3.2.v2.br8k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -b:a 128k a01.z3.2.v2.br128k.mowa.mp3
+ffmpeg -i mowa.mp3 -y -ac 1 -f mp3 -codec:a libmp3lame -b:a 320k a01.z3.2.v2.br320k.mowa.mp3
+```
+
+### 3 - CBR - lame
+
+> 3) [CBR niski bitrate] Jeśli chcemy uzyskać niższy CBR niż przy użyciu samego programu ffmpeg. Konieczne jest bezpośrednie skorzystanie z programu lame. Można to zrobić wywołując w potoku programy ffmpeg i lame:
+> ```
+> ffmpeg -i [plik źródłowy] -f wav - | lame --cbr -b 8 - out.mp3
+> ```
+
+```
+ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 8 - a01.z3.3.b8k.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 160 - a01.z3.3.b160k.muzyka.mp3
+ffmpeg -i muzyka.mp3 -y -ac 1 -f wav - | lame --cbr -b 320 - a01.z3.3.b320k.muzyka.mp3
+```
