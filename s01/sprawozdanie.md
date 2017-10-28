@@ -1,4 +1,4 @@
-Michał Góra
+Michał Góra   
 Karol Pietruszka
 
 # S 01 - asterisk
