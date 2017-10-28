@@ -3,11 +3,9 @@
 sudo bash
 apt-get update
 apt-get dist-upgrade
-sudo su (podajemy hasło dla normalnego użytkownika)
-passwd (podajemy 2x hasło, które chcemy ustawić dla konta root)
-apt-get install build-essential wget libssl-dev libncurses5-
-dev libnewt-dev libxml2-dev linux-headers-$(uname -r)
-libsqlite3-dev uuid-dev git subversion
+sudo su
+passwd
+apt-get install build-essential wget libssl-dev libncurses5-dev libnewt-dev libxml2-dev linux-headers-$(uname -r) libsqlite3-dev uuid-dev git subversion
 cd /usr/src
 wget downloads.asterisk.org/pub/telephony/asterisk/asterisk-13-current.tar.gz
 tar zxvf asterisk-13-current.tar.gz
