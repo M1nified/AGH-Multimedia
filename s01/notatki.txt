@@ -1,0 +1,19 @@
+.242
+
+Bledy w instrukcji:
+make-dep -> make dep
+upd -> udp
+
+start - zapytac?
+
+---
+
+make menuselect -> save
+
+asterisk -rvvvvv -> ilosc v to verbose level
+
+---
+
+make install
+ldconfig
+ldconfig -p | grep pj
