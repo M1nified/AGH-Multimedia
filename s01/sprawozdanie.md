@@ -1,7 +1,7 @@
 Michał Góra   
 Karol Pietruszka
 
-# S 01 - asterisk
+# S 01 - Asterisk
 
 ## Przydatne komendy
 
@@ -79,7 +79,8 @@ exten => 6001,1,Dial(PJSIP/t6001,30)
 exten => 6002,1,Dial(PJSIP/t6002,30)
 ;        ^^^^ Numer aktywujacy rozszerzenie
 ;               ^^^^^^^^^^^^^^^^^^^^
-;               Zadzwon do odpowiedniego endpointu zdefiniowanego w pjsip.conf
+;               Zadzwon do odpowiedniego endpointu
+;               zdefiniowanego w pjsip.conf
 ;                                ^^ Timeout
 ```
 
@@ -92,6 +93,91 @@ Przy zakladanej konfiguracji Asterisk `rport` musi byc wylaczony, aby telefon ot
 ### STUN - Simple Traversal of UDP through NATs (Network Address Translation)
 
 `STUN` rowniez musi byc wylaczony, aby uzyskac poprawna transmisje audio.
+
+## Konfiguracja poczty glosowej
+
+Najpierw w pliku `/etc/asterisk/voicemail.conf` dodajemy na koncu wpis:
+
+```conf
+[vm-demo]
+8001 => 9900,[Imie i nazwisko uzytkownika],[email uzytkownika]
+```
+
+gdzie `8001` jest numerem poczty glosowej, a `9900` pinem potrzebnym do uzyskania dostepu do wiadomosci.
+
+W kontekscie `[general]` tego pliku znajduja sie podstawowe parametry konfiguracyjne
+
+Nastepnie edytujemy plik `/etc/asterisk/extensions.conf`. W sekcji `[public]` ponizej wpisu:
+
+```conf
+exten => 6002,1,Dial(PJSIP/t6002,30)
+```
+
+dodajemy:
+
+```conf
+exten => 6002, n, VoiceMail(8001@vm-demo, u)
+exten => 6002, n, Hangup()
+; odsluchiwanie wiadomosci
+exten => 6600, 1, Answer(500)
+exten => 6600, n, VoiceMailMain(@vm-demo)
+```
+
+zapisujemy zmiany i wykonujemy `core restart now` Asteriska.
+
+### Odsluchiwanie poczty glosowej
+
+ 1. Zadzwon pod numer poczty glosowej: `6600`
+ 2. Podaj numer poczty glosowej: `8001`
+ 3. Podaj pin: `9900`
+
+Powyzsze kroki odpowiadaja zapowiedziom glosowym centrali.
+
+## Konfiguracja menu glosowego (Interactive Voice Response)
+
+Edytujemy plik `/etc/asterisk/extensions.conf`. Na jego koncu dodajey sekcje:
+
+```conf
+[demo-menu] ; nasza nazwa menu
+exten => s,1,Abswer(500)
+same => n(loop),Background(basic-pbx-ivr-main) 
+               ; Odtwarza basic-pbx-ivr-main.gsm
+               ; zawierajacy domyslny komunikat
+same => n,WaitExten()
+
+exten => 1,1,Playback(you-entered) ; Mowi: "you entered"
+same => n,SayNumber(1) ; Mowi: "one"
+same => n,Goto(s,loop)
+
+exten => 2,1,Playback(you-entered) ; Mowi: "you entered"
+same => n,SayNumber(2) ; Mowi: "two"
+same => n,Goto(s,loop)
+```
+
+Komunikaty mozna laczy w prosty sposob przy pomocy znaku `&` np.:
+
+```conf
+same => n(loop),Background(press-1&or&press-2)
+```
+
+Aby odtwarzac wlasny komunikat wystarczy zmienic argument polecenia `Background` na nazwe naszego pliku `.gsm`, ktory musimy wczesniej dodac do katalogu `/var/lib/asterisk/sounds/`.
+
+## Przygotowywanie plikow dzwiekowych w formacie .gsm
+
+1. Nagrywamy potrzebny komunikat i zapisujemy w formacie: `WAV (Microsoft) Signed 16bit PCM`; plik `.wav`
+2. Za pomoca programu `sox` konwertujemy do `.gsm`
+
+```shell
+sox komunikat.wav -r 8000 -c 1 komunikat.gsm
+```
+
+3. Umieszczamy plik `.gsm` w katalogu `/var/lib/asterisk/sounds/en/` na serwerze z Asteriskiem
+
+### Instalacja sox
+
+```shell
+sudo apt-get install sox libsox-fmt-all
+```
 
 ## Inne
 
