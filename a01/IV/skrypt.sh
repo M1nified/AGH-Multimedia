@@ -32,3 +32,11 @@ ffmpeg -i samples/SampleVideo_1280x720_10mb.mp4 -vn \
 ### > -c copy copies the first video, audio, and subtitle bitstream from the input to the output file without re-encoding them. This won't harm the quality and make the command run within seconds.
 
 ffmpeg -ss 10 -i samples/SampleVideo_1280x720_10mb.mp4 -t 00:00:01.000 SampleVideo_1280x720_10mb.mp4-%03d.png
+
+## c)
+
+### Replace audio stream
+ffmpeg -y -i samples/SampleVideo_1280x720_10mb.mp4 -i moja_sciezka.mp3 -codec copy -map 0:0 -map 1:0 -shortest SampleVideo_1280x720_10mb_Moja_Sciezka.mp4
+
+### Add second audio stream
+ffmpeg -y -i samples/SampleVideo_1280x720_10mb.mp4 -i moja_sciezka.mp3 -codec copy -map 0:v:0 -map 0:a:0 -map 1:a:0 -shortest SampleVideo_1280x720_10mb_Moja_Sciezka.mp4
